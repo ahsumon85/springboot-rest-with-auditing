@@ -1,0 +1,2 @@
+git remote add origin https://habibsumoncse2@bitbucket.org/habibsumoncse2/test-code.git
+git push -u origin master
