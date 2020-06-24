@@ -1,2 +1,11 @@
-git remote add origin https://habibsumoncse2@bitbucket.org/habibsumoncse2/test-code.git
-git push -u origin master
+git init
+
+git add .
+
+git commit -m "message"
+
+git remote add origin https://habibsumoncse2@bitbucket.org/habibsumoncse2/git-test.git
+
+git push -u origin --all 
+
+git push -u origin --tags
