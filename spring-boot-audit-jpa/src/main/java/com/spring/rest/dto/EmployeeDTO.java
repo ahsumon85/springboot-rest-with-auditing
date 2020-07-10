@@ -10,7 +10,7 @@ public class EmployeeDTO {
 
 	private String employeeGender;
 
-	private String employeePhone;
+	private int employeePhone = 1234567891;
 
 	public Long getEmployeeId() {
 		return employeeId;
@@ -44,11 +44,11 @@ public class EmployeeDTO {
 		this.employeeGender = employeeGender;
 	}
 
-	public String getEmployeePhone() {
+	public int getEmployeePhone() {
 		return employeePhone;
 	}
 
-	public void setEmployeePhone(String employeePhone) {
+	public void setEmployeePhone(int employeePhone) {
 		this.employeePhone = employeePhone;
 	}
 

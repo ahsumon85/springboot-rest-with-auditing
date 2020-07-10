@@ -12,6 +12,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -34,11 +36,13 @@ public class EmployeeEntity extends Auditable<String> {
 	@Column(name = "emp_email")
 	private String employeeEmail;
 
+	@Size(max = 1, message = "Gender must be 1 char..")
 	@Column(name = "emp_gender")
 	private String employeeGender;
 
+	@NotNull
 	@Column(name = "emp_phone")
-	private String employeePhone;
+	private Integer employeePhone;
 
 	public Long getEmployeeId() {
 		return employeeId;
@@ -72,11 +76,11 @@ public class EmployeeEntity extends Auditable<String> {
 		this.employeeGender = employeeGender;
 	}
 
-	public String getEmployeePhone() {
+	public int getEmployeePhone() {
 		return employeePhone;
 	}
 
-	public void setEmployeePhone(String employeePhone) {
+	public void setEmployeePhone(int employeePhone) {
 		this.employeePhone = employeePhone;
 	}
 

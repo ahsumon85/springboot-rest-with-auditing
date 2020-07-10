@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.rest.common.BaseResponse;
+import com.spring.rest.common.CustomMessage;
 import com.spring.rest.dto.EmployeeDTO;
 import com.spring.rest.entity.EmployeeEntity;
 import com.spring.rest.repo.EmployeeRepo;
@@ -18,6 +20,8 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepo employeeRepo;
+	
+	private static final String TOPIC = "Employee";
 
 	public List<EmployeeDTO> findEmpList() {
 		return employeeRepo.findAll().stream().map(this::copyEmployeEntityToDto).collect(Collectors.toList());
@@ -28,9 +32,11 @@ public class EmployeeService {
 		return copyEmployeEntityToDto(employeeEntity);
 	}
 
-	public void createOrUpdateEmployee(EmployeeDTO employeeDTO) {
+	public EmployeeEntity createOrUpdateEmployee(EmployeeDTO employeeDTO) {
 		EmployeeEntity employeeEntity = copyEmployeDtoToEntity(employeeDTO);
 		employeeRepo.save(employeeEntity);
+		BaseResponse response = new BaseResponse(TOPIC + CustomMessage.SAVE_SUCCESS_MESSAGE);
+		return employeeRepo.save(employeeEntity);
 	}
 
 	public void deleteEmployee(Long empId) {
