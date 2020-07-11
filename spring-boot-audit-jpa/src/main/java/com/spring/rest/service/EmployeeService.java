@@ -1,6 +1,7 @@
 package com.spring.rest.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.rest.common.BaseResponse;
 import com.spring.rest.common.CustomMessage;
+import com.spring.rest.common.RecordNotFoundException;
 import com.spring.rest.dto.EmployeeDTO;
 import com.spring.rest.entity.EmployeeEntity;
 import com.spring.rest.repo.EmployeeRepo;
@@ -28,7 +30,8 @@ public class EmployeeService {
 	}
 
 	public EmployeeDTO findByEmpId(Long empId) {
-		EmployeeEntity employeeEntity = employeeRepo.findByEmployeeId(empId);
+		EmployeeEntity employeeEntity = employeeRepo.findById(empId)
+				.orElseThrow(() -> new RecordNotFoundException("Employee id '" + empId + "' does no exist"));
 		return copyEmployeEntityToDto(employeeEntity);
 	}
 
