@@ -1,5 +1,6 @@
 package com.spring.rest.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,13 +25,15 @@ import com.spring.rest.audit.Auditable;
 @Entity
 @Table(name = "employee")
 @EntityListeners(AuditingEntityListener.class)
-public class EmployeeEntity extends Auditable<String> {
+public class EmployeeEntity extends Auditable<String> implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "emp_id")
 	private Long employeeId;
 
+	@NotEmpty(message = "Please provide a name")
 	@Column(name = "emp_name")
 	private String employeeName;
 

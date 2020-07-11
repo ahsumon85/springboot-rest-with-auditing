@@ -20,7 +20,7 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepo employeeRepo;
-	
+
 	private static final String TOPIC = "Employee";
 
 	public List<EmployeeDTO> findEmpList() {
@@ -32,11 +32,10 @@ public class EmployeeService {
 		return copyEmployeEntityToDto(employeeEntity);
 	}
 
-	public EmployeeEntity createOrUpdateEmployee(EmployeeDTO employeeDTO) {
+	public BaseResponse createOrUpdateEmployee(EmployeeDTO employeeDTO) {
 		EmployeeEntity employeeEntity = copyEmployeDtoToEntity(employeeDTO);
 		employeeRepo.save(employeeEntity);
-		BaseResponse response = new BaseResponse(TOPIC + CustomMessage.SAVE_SUCCESS_MESSAGE);
-		return employeeRepo.save(employeeEntity);
+		return new BaseResponse("Employee" + CustomMessage.SAVE_SUCCESS_MESSAGE);
 	}
 
 	public void deleteEmployee(Long empId) {
