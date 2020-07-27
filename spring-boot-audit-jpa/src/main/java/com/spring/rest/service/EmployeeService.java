@@ -37,6 +37,7 @@ public class EmployeeService {
 
 	public BaseResponse createOrUpdateEmployee(EmployeeDTO employeeDTO) {
 		EmployeeEntity employeeEntity = copyEmployeDtoToEntity(employeeDTO);
+
 		employeeRepo.save(employeeEntity);
 		return new BaseResponse("Employee" + CustomMessage.SAVE_SUCCESS_MESSAGE);
 	}
@@ -54,6 +55,7 @@ public class EmployeeService {
 	private EmployeeEntity copyEmployeDtoToEntity(EmployeeDTO employeeDTO) {
 		EmployeeEntity employeeEntity = new EmployeeEntity();
 		BeanUtils.copyProperties(employeeDTO, employeeEntity);
+		employeeEntity.setFileUpload(employeeDTO.getFileDownloadUri());
 		return employeeEntity;
 	}
 

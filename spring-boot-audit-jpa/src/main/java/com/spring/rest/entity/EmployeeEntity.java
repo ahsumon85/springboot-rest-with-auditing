@@ -1,37 +1,34 @@
 package com.spring.rest.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.hibernate.annotations.GenericGenerator;
 
-import com.spring.rest.audit.Auditable;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "employee")
-@EntityListeners(AuditingEntityListener.class)
-public class EmployeeEntity extends Auditable<String> implements Serializable {
-	private static final long serialVersionUID = 1L;
+//@EntityListeners(AuditingEntityListener.class)
+public class EmployeeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "emp_id")
-	private Long employeeId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empl_seq")
+	@GenericGenerator(name = "empl_seq", strategy = "com.spring.rest.entity.StringPrefixedSequenceIdGenerator", parameters = {
+			@Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "10"),
+			@Parameter(name= StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%09d")})
+//	private Long employeeId;
+
+	private String employeeId;
 
 	@NotEmpty(message = "Please provide a name")
 	@Column(name = "emp_name")
@@ -40,19 +37,21 @@ public class EmployeeEntity extends Auditable<String> implements Serializable {
 	@Column(name = "emp_email")
 	private String employeeEmail;
 
-	@Size(max = 1, message = "Gender must be 1 char..")
+	@Max(value = 1, message = "astatus flug field must be length '{value}'")
 	@Column(name = "emp_gender")
 	private String employeeGender;
 
-	@NotNull
 	@Column(name = "emp_phone")
 	private Integer employeePhone;
 
-	public Long getEmployeeId() {
+	@Column(name = "file_upload")
+	private String fileUpload;
+
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(Long employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -88,10 +87,16 @@ public class EmployeeEntity extends Auditable<String> implements Serializable {
 		this.employeePhone = employeePhone;
 	}
 
-	@Override
-	public String toString() {
-		return "EmployeeEntity [employeeId=" + employeeId + ", employeeName=" + employeeName + ", employeeEmail="
-				+ employeeEmail + ", employeeGender=" + employeeGender + ", employeePhone=" + employeePhone + "]";
+	public String getFileUpload() {
+		return fileUpload;
+	}
+
+	public void setFileUpload(String fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+
+	public void setEmployeePhone(Integer employeePhone) {
+		this.employeePhone = employeePhone;
 	}
 
 }
