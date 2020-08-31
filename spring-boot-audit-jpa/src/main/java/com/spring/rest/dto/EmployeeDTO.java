@@ -1,8 +1,15 @@
 package com.spring.rest.dto;
 
+import java.io.Serializable;
+
 import org.springframework.web.multipart.MultipartFile;
 
-public class EmployeeDTO {
+public class EmployeeDTO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6057442529356646819L;
 
 	private String employeeId;
 	

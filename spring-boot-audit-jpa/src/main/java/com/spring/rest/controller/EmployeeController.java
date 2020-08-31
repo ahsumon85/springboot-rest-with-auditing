@@ -44,13 +44,16 @@ public class EmployeeController {
 	private FileStorageService fileStorageService;
 
 	@GetMapping(value = "/find")
-	public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-		List<EmployeeDTO> list = employeeService.findEmpList();
+	public ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(defaultValue = "0") Integer pageNo,
+															@RequestParam(defaultValue = "10") Integer pageSize,
+															@RequestParam(defaultValue = "employeeId") String sortBy) {
+		List<EmployeeDTO> list = employeeService.findEmpList(pageNo, pageSize, sortBy);
 		return new ResponseEntity<List<EmployeeDTO>>(list, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/find/by-id")
-	public ResponseEntity<EmployeeDTO> getEmployeeById(@Valid @RequestParam @NotNull(message = "Id must not be null") Long id) {
+	public ResponseEntity<EmployeeDTO> getEmployeeById(
+			@Valid @RequestParam @NotNull(message = "Id must not be null") String id) {
 		EmployeeDTO list = employeeService.findByEmpId(id);
 
 		return new ResponseEntity<EmployeeDTO>(list, HttpStatus.OK);
@@ -60,9 +63,11 @@ public class EmployeeController {
 	public ResponseEntity<BaseResponse> createOrUpdateEmployee(@ModelAttribute EmployeeDTO employeeDTO) {
 		try {
 			String fileName = fileStorageService.storeFile(employeeDTO.getMultipartFile());
-			ServletUriComponentsBuilder servletUriComponentsBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
+			ServletUriComponentsBuilder servletUriComponentsBuilder = ServletUriComponentsBuilder
+					.fromCurrentContextPath();
 			servletUriComponentsBuilder.host("192.168.0.33");
-			String fileDownloadUri = servletUriComponentsBuilder.path("/employee/downloadFile/").path(fileName).toUriString();
+			String fileDownloadUri = servletUriComponentsBuilder.path("/employee/downloadFile/").path(fileName)
+					.toUriString();
 			employeeDTO.setFileName(fileName);
 			employeeDTO.setFileDownloadUri(fileDownloadUri);
 			employeeDTO.setFileType(employeeDTO.getMultipartFile().getContentType());
@@ -96,7 +101,7 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping(value = "/delete/{id}")
-	public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id) {
+	public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") String id) {
 		employeeService.deleteEmployee(id);
 		return new ResponseEntity<>("Data Delete sucessfully", HttpStatus.OK);
 	}

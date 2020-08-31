@@ -1,5 +1,7 @@
 package com.spring.rest.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +21,12 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "employee")
 //@EntityListeners(AuditingEntityListener.class)
-public class EmployeeEntity {
+public class EmployeeEntity implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6258707571564387794L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empl_seq")
@@ -30,14 +37,14 @@ public class EmployeeEntity {
 
 	private String employeeId;
 
-	@NotEmpty(message = "Please provide a name")
+//	@Size(max = 5, message = "astatus flug field must be length '{max}'")
 	@Column(name = "emp_name")
 	private String employeeName;
 
 	@Column(name = "emp_email")
 	private String employeeEmail;
 
-	@Max(value = 1, message = "astatus flug field must be length '{value}'")
+//	@Max(value = 1, message = "astatus flug field must be length '{value}'")
 	@Column(name = "emp_gender")
 	private String employeeGender;
 
@@ -98,5 +105,7 @@ public class EmployeeEntity {
 	public void setEmployeePhone(Integer employeePhone) {
 		this.employeePhone = employeePhone;
 	}
+
+
 
 }
